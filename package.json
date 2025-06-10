@@ -1,0 +1,22 @@
+{
+  "name": "tycord",
+  "module": "./src/main.ts",
+  "scripts": {
+    "test": "vitest --no-cache",
+    "coverage": "vitest --coverage --no-cache"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@types/bun": "latest",
+    "@vitest/coverage-v8": "3.2.2",
+    "vitest": "^3.2.2"
+  },
+  "peerDependencies": {
+    "typescript": "^5",
+    "discord.js": "^14.19.3"
+  },
+  "type": "module",
+  "dependencies": {
+    "reflect-metadata": "^0.2.2"
+  }
+}
