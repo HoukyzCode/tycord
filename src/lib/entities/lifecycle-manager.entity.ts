@@ -8,8 +8,8 @@ export type LifecycleManagerOptions = {
 }
 
 export class LifecycleManager {
-	public readonly name: string
-	public readonly root: string
+	readonly name: string
+	readonly root: string
 
 	private lifecycles: Map<string, Lifecycle>
 	private observers: LifecycleObserver[]

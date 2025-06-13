@@ -10,8 +10,8 @@ export type LifecycleContext = {
 
 @WithEventEmitter
 export abstract class Lifecycle {
-	public readonly name: string
-	public readonly root: string
+	readonly name: string
+	readonly root: string
 	private eventEmitter!: EventEmitter
 
 	constructor(options: LifecycleContext) {
@@ -19,10 +19,10 @@ export abstract class Lifecycle {
 		this.root = options.root
 	}
 
-	public beforeExecute(): TypeOrPromise<void> {}
-	public afterExecute(): TypeOrPromise<void> {}
+	beforeExecute(): TypeOrPromise<void> {}
+	afterExecute(): TypeOrPromise<void> {}
 
-	public on<K extends keyof LifecycleEvents>(
+	on<K extends keyof LifecycleEvents>(
 		eventName: K,
 		listener: (
 			...args: K extends keyof LifecycleEvents ? LifecycleEvents[K] : unknown[]
@@ -33,7 +33,7 @@ export abstract class Lifecycle {
 		return this
 	}
 
-	public once<K extends keyof LifecycleEvents>(
+	once<K extends keyof LifecycleEvents>(
 		eventName: K,
 		listener: (
 			...args: K extends keyof LifecycleEvents ? LifecycleEvents[K] : unknown[]
@@ -44,7 +44,7 @@ export abstract class Lifecycle {
 		return this
 	}
 
-	public emit<K extends keyof LifecycleEvents>(
+	emit<K extends keyof LifecycleEvents>(
 		eventName: K,
 		...args: K extends keyof LifecycleEvents ? LifecycleEvents[K] : unknown[]
 	): boolean {

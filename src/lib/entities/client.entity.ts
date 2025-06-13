@@ -1,20 +1,34 @@
+import { Client as DClient, type ClientOptions } from 'discord.js'
+import { container } from '../container'
 import {
-	Client as DClient,
-	type ClientOptions as DClientOptions
-} from 'discord.js'
+	InteractionManager,
+	type InteractionManagerOptions
+} from './interaction-manager.entity'
 
-export interface ClientOptions extends DClientOptions {}
+export interface TycordClientOptions {
+	interactionSync?: Partial<InteractionManagerOptions>
+}
 
 export class Client<T extends boolean = boolean> extends DClient<T> {
 	constructor(options: ClientOptions) {
-		super({
-			rest: {
-				retries: 5,
-				timeout: 30_000
-			},
-			...options
+		super(options)
+
+		container.client = this
+	}
+
+	override async login(token: string): Promise<string> {
+		const interactionManager = new InteractionManager({
+			deleteUnknownInteractions: true,
+			updateOldInteractions: true,
+			...this.options.interactionSync
 		})
+
+		console.log(interactionManager)
+
+		return await super.login(token)
 	}
 }
 
-export namespace Tycord {}
+declare module 'discord.js' {
+	interface ClientOptions extends TycordClientOptions {}
+}

@@ -1,22 +1,34 @@
 import type { CommandInteraction, CacheType } from 'discord.js'
-import type { SlashTypes } from '../lib/types/slash.types'
-import { Slash, type SlashOptions } from '../main'
+import {
+	ApplicationCommandOptionTypes,
+	type ApplicationCommandOption,
+	type InteractionTypes
+} from '../lib/types/interaction.types'
+import { Interaction } from '../main'
 import { WithOptions } from '../lib/decorators/with-options.decorator'
 
-@WithOptions<SlashOptions>({
+@WithOptions<ApplicationCommandOption>({
 	name: 'ping',
 	description: 'my ping',
-	options: []
+	options: [
+		{
+			name: 'gateways',
+			description: 'which gateways ping',
+			type: ApplicationCommandOptionTypes.String,
+			required: true,
+			choices: [
+				{ name: 'discord', value: 'discord' },
+				{ name: 'api', value: 'api' }
+			]
+		}
+	]
 })
-export class Ping extends Slash<typeof SlashTypes.CommandInteraction> {
-	override async execute(slash: CommandInteraction<CacheType>): Promise<void> {
-		await slash.followUp('Hello, World!')
+export class Ping extends Interaction<
+	typeof InteractionTypes.CommandInteraction
+> {
+	override async execute(
+		interaction: CommandInteraction<CacheType>
+	): Promise<void> {
+		await interaction.followUp('Hello, World!')
 	}
 }
-
-console.log(
-	new Ping({
-		name: 'Ping.ts',
-		root: '/src/commands/Ping.ts'
-	})
-)
